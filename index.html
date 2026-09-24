@@ -2,32 +2,471 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+
 <title>SOFI GAME</title>
 
 <style>
-html, body {
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
     margin: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: black;
+    background: #000;
+    font-family: Arial, sans-serif;
 }
 
-img {
+/* =========================
+   FONDO
+========================= */
+
+#fondo {
+    position: fixed;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    z-index: 0;
 }
+
+/* Oscurece ligeramente para que se vea la interfaz */
+
+#oscuro {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.22);
+    z-index: 1;
+}
+
+/* =========================
+   CONTENEDOR
+========================= */
+
+#app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+/* =========================
+   PORTADA
+========================= */
+
+#portada {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+/* Título */
+
+.logo {
+    margin: 0;
+
+    font-family: "Courier New", monospace;
+    font-size: clamp(45px, 8vw, 105px);
+    font-weight: 900;
+    letter-spacing: 5px;
+
+    color: #ff4fa3;
+
+    text-shadow:
+        4px 4px 0 #7d174c,
+        0 0 10px rgba(255,79,163,0.35);
+}
+
+/* Subtítulo */
+
+.subtitulo {
+    margin-top: 5px;
+
+    font-family: "Courier New", monospace;
+    font-size: clamp(13px, 2vw, 25px);
+
+    color: white;
+    letter-spacing: 3px;
+
+    text-shadow: 2px 2px 0 #000;
+}
+
+/* =========================
+   BOTONES
+========================= */
+
+.botones-portada {
+    margin-top: 35px;
+
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.boton {
+    min-width: 150px;
+    padding: 13px 24px;
+
+    border: 3px solid white;
+    border-radius: 4px;
+
+    background: rgba(0,0,0,0.78);
+
+    color: white;
+
+    font-family: "Courier New", monospace;
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    text-shadow: 2px 2px 0 #000;
+
+    box-shadow:
+        4px 4px 0 #000;
+
+    transition: transform 0.08s,
+                background 0.08s;
+}
+
+.boton:focus,
+.boton:hover {
+    outline: none;
+    background: #ff4fa3;
+    color: white;
+
+    transform: translate(-2px,-2px);
+
+    box-shadow:
+        6px 6px 0 #000;
+}
+
+/* =========================
+   PANTALLA NIVELES
+========================= */
+
+#niveles {
+    position: absolute;
+    inset: 0;
+
+    display: none;
+
+    flex-direction: column;
+    align-items: center;
+
+    padding: 25px 35px;
+}
+
+/* Título niveles */
+
+.titulo-niveles {
+    margin: 0 0 18px 0;
+
+    color: white;
+
+    font-family: "Courier New", monospace;
+    font-size: clamp(25px, 4vw, 50px);
+    font-weight: bold;
+
+    text-shadow:
+        3px 3px 0 #000;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid-niveles {
+
+    width: min(1100px, 92vw);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    grid-template-rows:
+        repeat(4, 1fr);
+
+    gap: 10px;
+
+    flex: 1;
+
+    max-height: 72vh;
+}
+
+/* Nivel */
+
+.nivel {
+
+    min-height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px;
+
+    background: rgba(0,0,0,0.78);
+
+    border: 2px solid white;
+    border-radius: 3px;
+
+    color: white;
+
+    font-family: "Courier New", monospace;
+    font-size: clamp(11px, 1.45vw, 19px);
+    font-weight: bold;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    box-shadow:
+        3px 3px 0 #000;
+
+    text-shadow:
+        2px 2px 0 #000;
+}
+
+.nivel:focus,
+.nivel:hover {
+
+    outline: none;
+
+    background: #ff4fa3;
+
+    transform: translate(-2px,-2px);
+
+    box-shadow:
+        5px 5px 0 #000;
+}
+
+/* =========================
+   BOTÓN REGRESAR
+========================= */
+
+#volver {
+
+    margin-top: 15px;
+
+    min-width: 150px;
+}
+
+/* =========================
+   MENSAJE
+========================= */
+
+#mensaje {
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+
+    padding: 12px 20px;
+
+    background: rgba(0,0,0,0.9);
+
+    border: 2px solid #ff4fa3;
+
+    color: white;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 16px;
+
+    text-align: center;
+
+    display: none;
+
+    z-index: 10;
+}
+
+/* =========================
+   RESPONSIVE TV
+========================= */
+
+@media (max-width: 900px) {
+
+    .grid-niveles {
+        gap: 7px;
+    }
+
+    .nivel {
+        font-size: 11px;
+    }
+
+    .boton {
+        min-width: 120px;
+        font-size: 15px;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
-<img id="escena" alt="SOFI GAME">
+<!-- =========================
+     FONDO
+========================= -->
+
+<img id="fondo" alt="SOFI GAME">
+
+<div id="oscuro"></div>
+
+
+<div id="app">
+
+    <!-- =====================
+         PORTADA
+    ====================== -->
+
+    <section id="portada">
+
+        <h1 class="logo">
+            SOFI GAME
+        </h1>
+
+        <div class="subtitulo">
+            ¿TE ATREVES A ENTRAR?
+        </div>
+
+        <div class="botones-portada">
+
+            <button
+                class="boton"
+                id="jugar">
+                JUGAR
+            </button>
+
+            <button
+                class="boton"
+                id="verNiveles">
+                NIVELES
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================
+         NIVELES
+    ====================== -->
+
+    <section id="niveles">
+
+        <h2 class="titulo-niveles">
+            SELECCIONA UN NIVEL
+        </h2>
+
+        <div class="grid-niveles">
+
+            <button class="nivel">
+                1. Tras Tiendas 0
+            </button>
+
+            <button class="nivel">
+                2. Caída a Vecindario
+            </button>
+
+            <button class="nivel">
+                3. Escaleras Interminables
+            </button>
+
+            <button class="nivel">
+                4. Hotel
+            </button>
+
+            <button class="nivel">
+                5. Pasillos Susurrantes
+            </button>
+
+            <button class="nivel">
+                6. Poolrooms
+            </button>
+
+            <button class="nivel">
+                7. Backrooms Espejo
+            </button>
+
+            <button class="nivel">
+                8. Paisaje
+            </button>
+
+            <button class="nivel">
+                9. Hello Kitty
+            </button>
+
+            <button class="nivel">
+                10. Hello Kitty Garden
+            </button>
+
+            <button class="nivel">
+                11. Ojos 3.14
+            </button>
+
+            <button class="nivel">
+                12. Simulación
+            </button>
+
+            <button class="nivel">
+                13. Nivel Fun
+            </button>
+
+            <button class="nivel">
+                14. Roba un Brainrot
+            </button>
+
+            <button class="nivel">
+                15. Bosque
+            </button>
+
+            <button class="nivel">
+                16. Pisos Flotantes
+            </button>
+
+        </div>
+
+        <button
+            class="boton"
+            id="volver">
+            ← VOLVER
+        </button>
+
+    </section>
+
+</div>
+
+
+<div id="mensaje"></div>
+
 
 <script>
+
+/* =====================================================
+   IMÁGENES DEL TIEMPO
+===================================================== */
+
 const amanecer =
 "https://raw.githubusercontent.com/er8213222-code/tiempo/main/file_00000000371081f59efdd1a9c32da2ab.png";
 
@@ -41,42 +480,173 @@ const madrugada =
 "https://raw.githubusercontent.com/er8213222-code/tiempo/main/file_0000000021f881f5965a9605296becfd.png";
 
 
-function cambiarEscena() {
+/* =====================================================
+   CAMBIO AUTOMÁTICO DEL TIEMPO
+===================================================== */
+
+function cambiarTiempo() {
 
     const ahora = new Date();
-    const minutos = ahora.getHours() * 60 + ahora.getMinutes();
+
+    const minutos =
+        ahora.getHours() * 60 +
+        ahora.getMinutes();
 
     let imagen;
 
-    // 5:30 AM - 7:00 AM
+    /*
+       5:30 AM - 7:00 AM
+    */
+
     if (minutos >= 330 && minutos < 420) {
+
         imagen = amanecer;
+
     }
 
-    // 7:00 AM - 8:00 PM
+    /*
+       7:00 AM - 8:00 PM
+    */
+
     else if (minutos >= 420 && minutos < 1200) {
+
         imagen = dia;
+
     }
 
-    // 8:00 PM - 12:30 AM
+    /*
+       8:00 PM - 12:30 AM
+    */
+
     else if (minutos >= 1200 || minutos < 30) {
+
         imagen = noche;
+
     }
 
-    // 12:30 AM - 5:30 AM
+    /*
+       12:30 AM - 5:30 AM
+    */
+
     else {
+
         imagen = madrugada;
+
     }
 
-    document.getElementById("escena").src = imagen;
+    document
+        .getElementById("fondo")
+        .src = imagen;
 }
 
 
-// Cargar inmediatamente
-cambiarEscena();
+/* =====================================================
+   PORTADA / NIVELES
+===================================================== */
 
-// Revisar la hora cada minuto
-setInterval(cambiarEscena, 60000);
+const portada =
+document.getElementById("portada");
+
+const niveles =
+document.getElementById("niveles");
+
+
+function mostrarNiveles() {
+
+    portada.style.display = "none";
+    niveles.style.display = "flex";
+
+}
+
+
+function mostrarPortada() {
+
+    niveles.style.display = "none";
+    portada.style.display = "flex";
+
+}
+
+
+/* =====================================================
+   BOTONES
+===================================================== */
+
+document
+.getElementById("jugar")
+.addEventListener("click", mostrarNiveles);
+
+
+document
+.getElementById("verNiveles")
+.addEventListener("click", mostrarNiveles);
+
+
+document
+.getElementById("volver")
+.addEventListener("click", mostrarPortada);
+
+
+/* =====================================================
+   NIVELES
+===================================================== */
+
+const botonesNivel =
+document.querySelectorAll(".nivel");
+
+
+botonesNivel.forEach((boton, indice) => {
+
+    boton.addEventListener("click", () => {
+
+        const numero = indice + 1;
+
+        mostrarMensaje(
+            "NIVEL " + numero + " SELECCIONADO"
+        );
+
+    });
+
+});
+
+
+/* =====================================================
+   MENSAJE
+===================================================== */
+
+function mostrarMensaje(texto) {
+
+    const mensaje =
+        document.getElementById("mensaje");
+
+    mensaje.textContent = texto;
+
+    mensaje.style.display = "block";
+
+    setTimeout(() => {
+
+        mensaje.style.display = "none";
+
+    }, 1800);
+
+}
+
+
+/* =====================================================
+   INICIO
+===================================================== */
+
+cambiarTiempo();
+
+
+/*
+   Revisar la hora cada minuto
+*/
+
+setInterval(
+    cambiarTiempo,
+    60000
+);
+
 </script>
 
 </body>
