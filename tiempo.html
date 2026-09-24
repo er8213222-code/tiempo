@@ -4,95 +4,94 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SOFI GAME TV</title>
+<title>SOFI GAME</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #000;
-    }
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
 
-    #escena {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        image-rendering: pixelated;
-        user-select: none;
-    }
+#escena {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
 </style>
 </head>
 
 <body>
 
-<img id="escena" src="dia.jpg" alt="SOFI GAME">
+<img id="escena" src="file_00000000cd8881f5bc25446156aefaf4.jpg">
 
 <script>
+
+const amanecer =
+"file_00000000371081f59efdd1a9c32da2ab.png";
+
+const dia =
+"file_00000000cd8881f5bc25446156aefaf4.jpg";
+
+const noche =
+"file_0000000035c881f5b0866c6cc2b3f8b8.png";
+
+const madrugada =
+"file_0000000021f881f5965a9605296becfd.png";
+
 
 function cambiarEscena() {
 
     const ahora = new Date();
 
-    const horas = ahora.getHours();
-    const minutos = ahora.getMinutes();
-
-    const minutosDelDia = horas * 60 + minutos;
+    const minutos =
+        ahora.getHours() * 60 + ahora.getMinutes();
 
     let imagen;
 
-    /*
-        5:30 AM - 7:00 AM
-        AMANECER
-    */
-    if (minutosDelDia >= 330 && minutosDelDia < 420) {
-        imagen = "amanecer.jpg";
+
+    // 5:30 AM → 7:00 AM
+    if (minutos >= 330 && minutos < 420) {
+        imagen = amanecer;
     }
 
-    /*
-        7:00 AM - 8:00 PM
-        DÍA
-    */
-    else if (minutosDelDia >= 420 && minutosDelDia < 1200) {
-        imagen = "dia.jpg";
+
+    // 7:00 AM → 8:00 PM
+    else if (minutos >= 420 && minutos < 1200) {
+        imagen = dia;
     }
 
-    /*
-        8:00 PM - 12:30 AM
-        NOCHE
-    */
-    else if (minutosDelDia >= 1200 || minutosDelDia < 30) {
-        imagen = "noche.jpg";
+
+    // 8:00 PM → 12:30 AM
+    else if (minutos >= 1200 || minutos < 30) {
+        imagen = noche;
     }
 
-    /*
-        12:30 AM - 5:30 AM
-        MADRUGADA
-    */
+
+    // 12:30 AM → 5:30 AM
     else {
-        imagen = "madrugada.jpg";
+        imagen = madrugada;
     }
 
-    const escena = document.getElementById("escena");
 
-    if (!escena.src.endsWith(imagen)) {
-        escena.src = imagen;
-    }
+    document.getElementById("escena").src = imagen;
 }
 
 
-/* Revisar inmediatamente */
+// Ejecutar al abrir
 cambiarEscena();
 
-/* Revisar la hora cada 10 segundos */
+// Revisar cada 10 segundos
 setInterval(cambiarEscena, 10000);
 
 </script>
