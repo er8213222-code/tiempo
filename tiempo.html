@@ -3,107 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SOFI GAME</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 html, body {
+    margin: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #000;
+    background: black;
 }
 
-#escena {
-    position: fixed;
-    inset: 0;
+img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    image-rendering: pixelated;
+    display: block;
 }
 </style>
 </head>
 
 <body>
 
-<img id="escena" alt="SOFI GAME">
-
-<script>
-
-const amanecer =
-"https://raw.githubusercontent.com/er8213222-code/tiempo/main/file_00000000371081f59efdd1a9c32da2ab.png";
-
-const dia =
-"https://raw.githubusercontent.com/er8213222-code/tiempo/main/file_00000000cd8881f5bc25446156aefaf4.jpg";
-
-const noche =
-"https://raw.githubusercontent.com/er8213222-code/tiempo/main/file_0000000035c881f5b0866c6cc2b3f8b8.png";
-
-const madrugada =
-"https://raw.githubusercontent.com/er8213222-code/tiempo/main/file_0000000021f881f5965a9605296becfd.png";
-
-
-function cambiarEscena() {
-
-    const ahora = new Date();
-
-    const minutos =
-        ahora.getHours() * 60 + ahora.getMinutes();
-
-    let imagen;
-
-
-    // 5:30 AM - 7:00 AM
-    if (minutos >= 330 && minutos < 420) {
-
-        imagen = amanecer;
-
-    }
-
-
-    // 7:00 AM - 8:00 PM
-    else if (minutos >= 420 && minutos < 1200) {
-
-        imagen = dia;
-
-    }
-
-
-    // 8:00 PM - 12:30 AM
-    else if (minutos >= 1200 || minutos < 30) {
-
-        imagen = noche;
-
-    }
-
-
-    // 12:30 AM - 5:30 AM
-    else {
-
-        imagen = madrugada;
-
-    }
-
-
-    document.getElementById("escena").src = imagen;
-}
-
-
-// Ejecutar inmediatamente
-cambiarEscena();
-
-
-// Revisar cada 10 segundos
-setInterval(cambiarEscena, 10000);
-
-</script>
+<img src="https://raw.githubusercontent.com/er8213222-code/tiempo/main/file_00000000cd8881f5bc25446156aefaf4.jpg">
 
 </body>
 </html>
