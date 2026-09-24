@@ -2,12 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOFI GAME</title>
 
 <style>
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -19,8 +17,12 @@ html, body {
     height: 100%;
     overflow: hidden;
     background: #000;
-    font-family: Arial, sans-serif;
+    font-family: "Courier New", monospace;
 }
+
+/* =========================
+   FONDO
+========================= */
 
 #fondo {
     position: fixed;
@@ -34,15 +36,23 @@ html, body {
 #oscuro {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.22);
+    background: rgba(0,0,0,0.18);
     z-index: 1;
 }
 
-#app {
-    position: relative;
-    width: 100%;
-    height: 100%;
+
+/* =========================
+   GENERAL
+========================= */
+
+.pantalla {
+    position: fixed;
+    inset: 0;
     z-index: 2;
+}
+
+.oculto {
+    display: none !important;
 }
 
 
@@ -51,80 +61,72 @@ html, body {
 ========================= */
 
 #portada {
-    position: absolute;
-    inset: 0;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    text-align: center;
 }
 
 .logo {
     margin: 0;
 
-    font-family: "Courier New", monospace;
-    font-size: clamp(45px, 8vw, 105px);
+    color: #ff4fa3;
+
+    font-size: clamp(48px, 8vw, 105px);
     font-weight: 900;
     letter-spacing: 5px;
 
-    color: #ff4fa3;
-
     text-shadow:
-        4px 4px 0 #7d174c,
-        0 0 10px rgba(255,79,163,0.35);
+        4px 4px 0 #6d1743,
+        0 0 12px rgba(255,79,163,0.35);
 }
 
 .subtitulo {
-    margin-top: 5px;
-
-    font-family: "Courier New", monospace;
-    font-size: clamp(13px, 2vw, 25px);
+    margin-top: 8px;
 
     color: white;
+
+    font-size: clamp(14px, 2vw, 25px);
     letter-spacing: 3px;
 
-    text-shadow: 2px 2px 0 #000;
+    text-shadow: 3px 3px 0 #000;
 }
 
-.botones-portada {
-    margin-top: 35px;
 
+/* =========================
+   BOTONES JUEGA / MUERE
+========================= */
+
+.botones-principales {
     display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 22px;
+    margin-top: 38px;
 }
 
-.boton {
-    min-width: 150px;
-    padding: 13px 24px;
+.boton-principal {
+    min-width: 160px;
+    padding: 14px 25px;
+
+    background: rgba(0,0,0,0.78);
 
     border: 3px solid white;
     border-radius: 4px;
 
-    background: rgba(0,0,0,0.78);
-
     color: white;
 
     font-family: "Courier New", monospace;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
 
     cursor: pointer;
 
-    text-shadow: 2px 2px 0 #000;
-
     box-shadow: 4px 4px 0 #000;
 }
 
-.boton:focus,
-.boton:hover {
+.boton-principal:focus,
+.boton-principal:hover {
     outline: none;
     background: #ff4fa3;
-    color: white;
 
     transform: translate(-2px,-2px);
 
@@ -133,39 +135,66 @@ html, body {
 
 
 /* =========================
-   PANTALLA CASA / JUGAR
+   CALAVERA / ?
 ========================= */
 
-#casa {
-    position: absolute;
-    inset: 0;
+.boton-esquina {
+    position: fixed;
 
-    display: none;
+    bottom: 20px;
 
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
+    width: 58px;
+    height: 58px;
 
-    padding-bottom: 35px;
-}
+    background: rgba(0,0,0,0.80);
 
-.titulo-casa {
-    position: absolute;
-    top: 25px;
+    border: 3px solid white;
+    border-radius: 4px;
 
     color: white;
 
     font-family: "Courier New", monospace;
-    font-size: clamp(22px, 4vw, 45px);
+    font-size: 28px;
     font-weight: bold;
 
-    text-shadow: 3px 3px 0 #000;
+    cursor: pointer;
+
+    z-index: 5;
+
+    box-shadow: 4px 4px 0 #000;
 }
 
-.botones-casa {
-    display: flex;
-    gap: 15px;
+.boton-esquina:focus,
+.boton-esquina:hover {
+    outline: none;
+    background: #ff4fa3;
+
+    transform: translateY(-2px);
 }
+
+#calavera {
+    left: 20px;
+}
+
+#pregunta {
+    right: 20px;
+}
+
+
+/* =========================
+   PANTALLA CASA
+========================= */
+
+#casa {
+    display: none;
+}
+
+
+/*
+   Al jugar NO aparece ningún título,
+   botón de volver ni niveles.
+   Solamente queda el fondo.
+*/
 
 
 /* =========================
@@ -173,54 +202,40 @@ html, body {
 ========================= */
 
 #niveles {
-    position: absolute;
-    inset: 0;
-
     display: none;
 
     flex-direction: column;
     align-items: center;
 
-    padding: 25px 35px;
+    padding: 25px 30px;
 }
 
-.titulo-niveles {
-    margin: 0 0 18px 0;
+.titulo {
+    margin: 0 0 18px;
 
     color: white;
 
-    font-family: "Courier New", monospace;
-    font-size: clamp(25px, 4vw, 50px);
-    font-weight: bold;
+    font-size: clamp(26px, 4vw, 48px);
 
     text-shadow: 3px 3px 0 #000;
 }
 
-.grid-niveles {
+.grid {
     width: min(1100px, 92vw);
 
     display: grid;
 
     grid-template-columns: repeat(4, 1fr);
+
     grid-template-rows: repeat(4, 1fr);
 
-    gap: 10px;
+    gap: 9px;
 
-    flex: 1;
-
-    max-height: 72vh;
+    height: 70vh;
 }
 
 .nivel {
-    min-height: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 8px;
-
-    background: rgba(0,0,0,0.78);
+    background: rgba(0,0,0,0.82);
 
     border: 2px solid white;
     border-radius: 3px;
@@ -228,16 +243,17 @@ html, body {
     color: white;
 
     font-family: "Courier New", monospace;
-    font-size: clamp(11px, 1.45vw, 19px);
+
+    font-size: clamp(11px, 1.4vw, 18px);
     font-weight: bold;
 
-    text-align: center;
+    padding: 8px;
 
     cursor: pointer;
 
-    box-shadow: 3px 3px 0 #000;
-
     text-shadow: 2px 2px 0 #000;
+
+    box-shadow: 3px 3px 0 #000;
 }
 
 .nivel:focus,
@@ -247,61 +263,72 @@ html, body {
     background: #ff4fa3;
 
     transform: translate(-2px,-2px);
-
-    box-shadow: 5px 5px 0 #000;
-}
-
-#volverNiveles {
-    margin-top: 15px;
 }
 
 
 /* =========================
-   MENSAJE
+   ENCUESTAS
 ========================= */
 
-#mensaje {
-    position: fixed;
+#encuestas {
+    display: none;
 
-    left: 50%;
-    bottom: 25px;
+    align-items: center;
+    justify-content: center;
 
-    transform: translateX(-50%);
+    flex-direction: column;
 
-    padding: 12px 20px;
+    text-align: center;
+}
 
-    background: rgba(0,0,0,0.9);
+.encuestas-titulo {
+    color: white;
 
-    border: 2px solid #ff4fa3;
+    font-size: clamp(30px, 5vw, 55px);
+
+    text-shadow: 4px 4px 0 #000;
+}
+
+.encuestas-vacio {
+    margin-top: 10px;
 
     color: white;
 
-    font-family: "Courier New", monospace;
+    font-size: clamp(15px, 2vw, 22px);
 
-    font-size: 16px;
-
-    text-align: center;
-
-    display: none;
-
-    z-index: 10;
+    text-shadow: 2px 2px 0 #000;
 }
 
 
-@media (max-width: 900px) {
+/* =========================
+   MENSAJE MUERE
+========================= */
 
-    .grid-niveles {
-        gap: 7px;
-    }
+#mensajeMuere {
+    position: fixed;
 
-    .nivel {
-        font-size: 11px;
-    }
+    inset: 0;
 
-    .boton {
-        min-width: 120px;
-        font-size: 15px;
-    }
+    z-index: 20;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background: rgba(0,0,0,0.90);
+
+    color: white;
+
+    text-align: center;
+
+    font-size: clamp(25px, 5vw, 60px);
+    font-weight: bold;
+
+    text-shadow:
+        4px 4px 0 #000;
 }
 
 </style>
@@ -309,119 +336,140 @@ html, body {
 
 <body>
 
+<!-- =========================
+     FONDO
+========================= -->
+
 <img id="fondo" alt="SOFI GAME">
 
 <div id="oscuro"></div>
 
-<div id="app">
 
+<!-- =========================
+     PORTADA
+========================= -->
 
-    <!-- =====================
-         PORTADA
-    ====================== -->
+<section id="portada" class="pantalla">
 
-    <section id="portada">
+    <h1 class="logo">
+        SOFI GAME
+    </h1>
 
-        <h1 class="logo">
-            SOFI GAME
-        </h1>
+    <div class="subtitulo">
+        ¿TE ATREVES A ENTRAR?
+    </div>
 
-        <div class="subtitulo">
-            ¿TE ATREVES A ENTRAR?
-        </div>
+    <div class="botones-principales">
 
-        <div class="botones-portada">
-
-            <button class="boton" id="jugar">
-                JUGAR
-            </button>
-
-            <button class="boton" id="verNiveles">
-                NIVELES
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================
-         CASA
-    ====================== -->
-
-    <section id="casa">
-
-        <div class="titulo-casa">
-            SOFI GAME
-        </div>
-
-        <div class="botones-casa">
-
-            <button class="boton" id="volverCasa">
-                ← VOLVER
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================
-         NIVELES
-    ====================== -->
-
-    <section id="niveles">
-
-        <h2 class="titulo-niveles">
-            SELECCIONA UN NIVEL
-        </h2>
-
-        <div class="grid-niveles">
-
-            <button class="nivel">1. Tras Tiendas 0</button>
-
-            <button class="nivel">2. Caída a Vecindario</button>
-
-            <button class="nivel">3. Escaleras Interminables</button>
-
-            <button class="nivel">4. Hotel</button>
-
-            <button class="nivel">5. Pasillos Susurrantes</button>
-
-            <button class="nivel">6. Poolrooms</button>
-
-            <button class="nivel">7. Backrooms Espejo</button>
-
-            <button class="nivel">8. Paisaje</button>
-
-            <button class="nivel">9. Hello Kitty</button>
-
-            <button class="nivel">10. Hello Kitty Garden</button>
-
-            <button class="nivel">11. Ojos 3.14</button>
-
-            <button class="nivel">12. Simulación</button>
-
-            <button class="nivel">13. Nivel Fun</button>
-
-            <button class="nivel">14. Roba un Brainrot</button>
-
-            <button class="nivel">15. Bosque</button>
-
-            <button class="nivel">16. Pisos Flotantes</button>
-
-        </div>
-
-        <button class="boton" id="volverNiveles">
-            ← VOLVER
+        <button
+            id="btnJuega"
+            class="boton-principal">
+            JUEGA
         </button>
 
-    </section>
+        <button
+            id="btnMuere"
+            class="boton-principal">
+            MUERE
+        </button>
+
+    </div>
+
+
+    <!-- CALAVERA -->
+
+    <button
+        id="calavera"
+        class="boton-esquina"
+        aria-label="Niveles">
+        ☠
+    </button>
+
+
+    <!-- SIGNO DE PREGUNTA -->
+
+    <button
+        id="pregunta"
+        class="boton-esquina"
+        aria-label="Encuestas">
+        ?
+    </button>
+
+</section>
+
+
+<!-- =========================
+     CASA
+========================= -->
+
+<section id="casa" class="pantalla oculto">
+</section>
+
+
+<!-- =========================
+     NIVELES
+========================= -->
+
+<section id="niveles" class="pantalla oculto">
+
+    <h2 class="titulo">
+        NIVELES
+    </h2>
+
+    <div class="grid">
+
+        <button class="nivel">1. Tras Tiendas 0</button>
+        <button class="nivel">2. Caída a Vecindario</button>
+        <button class="nivel">3. Escaleras Interminables</button>
+        <button class="nivel">4. Hotel</button>
+
+        <button class="nivel">5. Pasillos Susurrantes</button>
+        <button class="nivel">6. Poolrooms</button>
+        <button class="nivel">7. Backrooms Espejo</button>
+        <button class="nivel">8. Paisaje</button>
+
+        <button class="nivel">9. Hello Kitty</button>
+        <button class="nivel">10. Hello Kitty Garden</button>
+        <button class="nivel">11. Ojos 3.14</button>
+        <button class="nivel">12. Simulación</button>
+
+        <button class="nivel">13. Nivel Fun</button>
+        <button class="nivel">14. Roba un Brainrot</button>
+        <button class="nivel">15. Bosque</button>
+        <button class="nivel">16. Pisos Flotantes</button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ENCUESTAS
+========================= -->
+
+<section id="encuestas" class="pantalla oculto">
+
+    <div class="encuestas-titulo">
+        ENCUESTAS
+    </div>
+
+    <div class="encuestas-vacio">
+        No hay encuestas disponibles.
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MENSAJE MUERE
+========================= -->
+
+<div id="mensajeMuere">
+
+    TE VA A VIGILAR EMILIANO<br>
+    DURANTE 2 HORAS
 
 </div>
-
-
-<div id="mensaje"></div>
 
 
 <script>
@@ -444,7 +492,7 @@ const madrugada =
 
 
 /* =====================================================
-   CAMBIO DE TIEMPO
+   CAMBIO DE FONDO SEGÚN LA HORA
 ===================================================== */
 
 function cambiarTiempo() {
@@ -502,105 +550,86 @@ document.getElementById("casa");
 const niveles =
 document.getElementById("niveles");
 
+const encuestas =
+document.getElementById("encuestas");
 
-function ocultarTodo() {
 
-    portada.style.display = "none";
-    casa.style.display = "none";
-    niveles.style.display = "none";
+function mostrarSolo(pantalla) {
 
+    portada.classList.add("oculto");
+    casa.classList.add("oculto");
+    niveles.classList.add("oculto");
+    encuestas.classList.add("oculto");
+
+    pantalla.classList.remove("oculto");
 }
 
 
-/* =========================
-   JUGAR → CASA
-========================= */
+/* =====================================================
+   JUEGA
+===================================================== */
 
-document.getElementById("jugar").addEventListener("click", () => {
+document.getElementById("btnJuega")
+.addEventListener("click", function() {
 
-    ocultarTodo();
+    /*
+       La casa no tiene botones,
+       títulos ni niveles.
+    */
 
-    casa.style.display = "flex";
-
-});
-
-
-/* =========================
-   NIVELES → NIVELES
-========================= */
-
-document.getElementById("verNiveles").addEventListener("click", () => {
-
-    ocultarTodo();
-
-    niveles.style.display = "flex";
+    mostrarSolo(casa);
 
 });
 
 
-/* =========================
-   VOLVER DESDE CASA
-========================= */
+/* =====================================================
+   MUERE
+===================================================== */
 
-document.getElementById("volverCasa").addEventListener("click", () => {
+document.getElementById("btnMuere")
+.addEventListener("click", function() {
 
-    ocultarTodo();
-
-    portada.style.display = "flex";
-
-});
-
-
-/* =========================
-   VOLVER DESDE NIVELES
-========================= */
-
-document.getElementById("volverNiveles").addEventListener("click", () => {
-
-    ocultarTodo();
-
-    portada.style.display = "flex";
+    document.getElementById("mensajeMuere").style.display =
+        "flex";
 
 });
 
 
-/* =========================
-   NIVELES
-========================= */
+/* =====================================================
+   CERRAR MENSAJE MUERE
+   Tocando/clic en cualquier parte
+===================================================== */
 
-document.querySelectorAll(".nivel").forEach((boton, indice) => {
+document.getElementById("mensajeMuere")
+.addEventListener("click", function() {
 
-    boton.addEventListener("click", () => {
-
-        mostrarMensaje(
-            "NIVEL " + (indice + 1) + " SELECCIONADO"
-        );
-
-    });
+    this.style.display = "none";
 
 });
 
 
-/* =========================
-   MENSAJE
-========================= */
+/* =====================================================
+   CALAVERA → NIVELES
+===================================================== */
 
-function mostrarMensaje(texto) {
+document.getElementById("calavera")
+.addEventListener("click", function() {
 
-    const mensaje =
-        document.getElementById("mensaje");
+    mostrarSolo(niveles);
 
-    mensaje.textContent = texto;
+});
 
-    mensaje.style.display = "block";
 
-    setTimeout(() => {
+/* =====================================================
+   ? → ENCUESTAS
+===================================================== */
 
-        mensaje.style.display = "none";
+document.getElementById("pregunta")
+.addEventListener("click", function() {
 
-    }, 1800);
+    mostrarSolo(encuestas);
 
-}
+});
 
 
 /* =====================================================
