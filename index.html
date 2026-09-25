@@ -334,7 +334,7 @@ button{
 
 <body>
 
-<img id="fondo">
+<img id="fondo" alt="">
 
 
 <!-- PORTADA -->
@@ -422,7 +422,7 @@ button{
     <button
         class="volver"
         id="volverNiveles">
-        VOLVER
+        ← VOLVER
     </button>
 
 </div>
@@ -443,7 +443,7 @@ button{
     <button
         class="volver"
         id="volverEncuestas">
-        VOLVER
+        ← VOLVER
     </button>
 
 </div>
@@ -479,8 +479,7 @@ const madrugada =
 
 
 /* =========================
-   CAMBIO DE IMAGEN
-   PRUEBA DE HOY
+   HORARIO FINAL
 ========================= */
 
 function cambiarTiempo(){
@@ -493,30 +492,25 @@ function cambiarTiempo(){
 
     let imagen;
 
-    /*
-       HOY ESTAMOS PROBANDO:
-
-       5:30 AM - 7:00 AM
-       = AMANECER
-
-       7:00 AM - 7:30 PM
-       = DÍA
-
-       7:30 PM EN ADELANTE
-       = NOCHE
-    */
-
     if(minutos >= 330 && minutos < 420){
 
+        // 5:30 AM - 7:00 AM
         imagen = amanecer;
 
-    }else if(minutos >= 420 && minutos < 1170){
+    }else if(minutos >= 420 && minutos < 1200){
 
+        // 7:00 AM - 8:00 PM
         imagen = dia;
+
+    }else if(minutos >= 1200 || minutos < 30){
+
+        // 8:00 PM - 12:30 AM
+        imagen = noche;
 
     }else{
 
-        imagen = noche;
+        // 12:30 AM - 5:30 AM
+        imagen = madrugada;
 
     }
 
@@ -656,7 +650,7 @@ document.getElementById("volverEncuestas").onclick = function(){
 
 
 /* =========================
-   INICIAR RELOJ
+   INICIAR
 ========================= */
 
 cambiarTiempo();
