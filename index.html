@@ -337,7 +337,9 @@ button{
 <img id="fondo" alt="">
 
 
-<!-- PORTADA -->
+<!-- =========================
+     PORTADA
+========================= -->
 
 <div id="portada">
 
@@ -368,7 +370,9 @@ button{
 </div>
 
 
-<!-- CASA -->
+<!-- =========================
+     CASA
+========================= -->
 
 <div id="casa">
 
@@ -387,7 +391,9 @@ button{
 </div>
 
 
-<!-- NIVELES -->
+<!-- =========================
+     NIVELES
+========================= -->
 
 <div id="niveles">
 
@@ -428,7 +434,9 @@ button{
 </div>
 
 
-<!-- ENCUESTAS -->
+<!-- =========================
+     ENCUESTAS
+========================= -->
 
 <div id="encuestas">
 
@@ -449,7 +457,9 @@ button{
 </div>
 
 
-<!-- MUERE -->
+<!-- =========================
+     MUERE
+========================= -->
 
 <div id="mensajeMuere">
 
@@ -494,22 +504,22 @@ function cambiarTiempo(){
 
     if(minutos >= 330 && minutos < 420){
 
-        // 5:30 AM - 7:00 AM
+        /* 5:30 AM - 7:00 AM */
         imagen = amanecer;
 
-    }else if(minutos >= 420 && minutos < 1200){
+    }else if(minutos >= 420 && minutos < 1140){
 
-        // 7:00 AM - 8:00 PM
+        /* 7:00 AM - 7:00 PM */
         imagen = dia;
 
-    }else if(minutos >= 1200 || minutos < 30){
+    }else if(minutos >= 1140 || minutos < 30){
 
-        // 8:00 PM - 12:30 AM
+        /* 7:00 PM - 12:30 AM */
         imagen = noche;
 
     }else{
 
-        // 12:30 AM - 5:30 AM
+        /* 12:30 AM - 5:30 AM */
         imagen = madrugada;
 
     }
